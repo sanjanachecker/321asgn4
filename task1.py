@@ -1,10 +1,12 @@
 from hashlib import sha256
 import string
 import random
+import time
 
-def sha_hash(input):
+
+def sha_hash(input, n):
     hash = sha256(input.encode())
-    hx = hash.hexdigest()[:10]
+    hx = hash.hexdigest()[:n]
     # print('hx: ', hx)
     return hx
 
@@ -35,32 +37,52 @@ hamming_dist("world", "worle")
 
 # part c
 
+
 def generate_string(length):
     n = length
     res = ''.join(random.choices(string.ascii_lowercase +
-                                string.digits, k=n))
+                                 string.digits, k=n))
     # # print result
     # print("The generated random string : " + str(res))
     return res
 
-def generate_key_value():
+
+def generate_key_value(digest_size):
     message = generate_string(8)
-    hash = sha_hash(message)
+    hash = sha_hash(message, digest_size)
     return message, hash
 
 # print(generate_key_value())
-    
-messages = {}
-def find_collision(messages):
+
+
+def find_collision(digest_size):
+    messages = {}
     found = False
+    inputs = 0
     while not found:
-        message, hash = generate_key_value()
+        message, hash = generate_key_value(digest_size)
         if (hash not in messages):
             messages[hash] = message
+            inputs += 1
         else:
-            if(messages[hash] != message):
+            if (messages[hash] != message):
                 found = True
-                return hash, messages[hash], message
+                return inputs
 
-print(find_collision(messages))
+
+def increment_by_2():
+    time_list = [("bits", "secs")]
+    input_list = [("bits", "inputs")]
+
+    for i in range(8, 50, 2):
+        start = time.time()
+        inputs = find_collision(i)
+        end = time.time()
+        total_time = end - start
+        time_list.append((i, total_time))
+        input_list.append((i, inputs))
+
+
+increment_by_2()
+# print(find_collision(messages))
 # print(messages)
