@@ -31,9 +31,9 @@ def hamming_dist(str1, str2):
     print("distance: ", dist)
 
 
-sha_hash("hi")
-hamming_dist("hello", "helln")
-hamming_dist("world", "worle")
+# sha_hash("hi")
+# hamming_dist("hello", "helln")
+# hamming_dist("world", "worle")
 
 # part c
 
@@ -74,7 +74,7 @@ def increment_by_2():
     time_list = [("bits", "secs")]
     input_list = [("bits", "inputs")]
 
-    for i in range(8, 50, 2):
+    for i in range(14, 18, 2):
         start = time.time()
         inputs = find_collision(i)
         end = time.time()
@@ -82,7 +82,11 @@ def increment_by_2():
         time_list.append((i, total_time))
         input_list.append((i, inputs))
 
+    return time_list, input_list
 
-increment_by_2()
+
+time_list, input_list = increment_by_2()
+print(time_list)
+print(input_list)
 # print(find_collision(messages))
 # print(messages)
