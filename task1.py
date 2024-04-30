@@ -1,11 +1,12 @@
 from hashlib import sha256
+from Crypto.Hash import SHA256
 import string
 import random
 import time
 
 
 def sha_hash(input, n):
-    hash = sha256(input.encode())
+    hash = SHA256.new(input.encode())
     hx = hash.hexdigest()[:n]
     # print('hx: ', hx)
     return hx
@@ -30,14 +31,14 @@ def hamming_dist(str1, str2):
 
     print("hamming distance: ", dist)
 
-hamming_dist("hello", "helln")
-hamming_dist("world", "worle")
+# hamming_dist("hello", "helln")
+# hamming_dist("world", "worle")
 
-print("hello:", sha_hash("hello", 8))
-print("helln:", sha_hash("helln", 8))
+# print("hello:", sha_hash("hello", 8))
+# print("helln:", sha_hash("helln", 8))
 
-print("world:", sha_hash("world", 8))
-print("worle:", sha_hash("worle", 8))
+# print("world:", sha_hash("world", 8))
+# print("worle:", sha_hash("worle", 8))
 
 
 # sha_hash("hi")
@@ -50,53 +51,65 @@ print("worle:", sha_hash("worle", 8))
 def generate_string(length):
     n = length
     res = ''.join(random.choices(string.ascii_lowercase +
-                                 string.digits, k=n))
-    # # print result
+                             string.digits, k=n))    # # print result
     # print("The generated random string : " + str(res))
     return res
 
 
 def generate_key_value(digest_size):
-    message = generate_string(8)
+    message = generate_string(5)
     hash = sha_hash(message, digest_size)
     return message, hash
 
 # print(generate_key_value())
 
 
+# def find_collision(digest_size):
+#     messages = {}
+#     found = False
+#     inputs = 0
+#     while not found:
+#         message, hash = generate_key_value(digest_size)
+#         if (hash not in messages):
+#             messages[hash] = message
+#             inputs += 1
+#         else:
+#             if (messages[hash] != message):
+#                 found = True
+#                 return inputs
 def find_collision(digest_size):
-    messages = {}
+    messages = set()
     found = False
     inputs = 0
     while not found:
         message, hash = generate_key_value(digest_size)
-        if (hash not in messages):
-            messages[hash] = message
+        if hash not in messages:
+            messages.add(hash)
             inputs += 1
         else:
-            if (messages[hash] != message):
-                found = True
-                return inputs
-
+            found = True
+    return inputs
 
 def increment_by_2():
     time_list = [("bits", "secs")]
     input_list = [("bits", "inputs")]
 
-    for i in range(14, 18, 2):
+    for i in range(8, 50, 2):
         start = time.time()
         inputs = find_collision(i)
         end = time.time()
         total_time = end - start
+        print("inputs", inputs)
+        print("time", total_time)
         time_list.append((i, total_time))
         input_list.append((i, inputs))
 
     return time_list, input_list
 
 
-# time_list, input_list = increment_by_2()
-# print(time_list)
-# print(input_list)
+time_list, input_list = increment_by_2()
+print(time_list)
+print(input_list)
 
 # print(find_collision(messages))
 # print(messages)
