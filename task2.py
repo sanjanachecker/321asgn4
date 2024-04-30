@@ -4,42 +4,39 @@ from bcrypt import *
 from nltk.corpus import words
 import time
 
-
-def parse():
+def main():
     filename = sys.argv[1]
 
     with open(filename, 'r') as file:
-        for line in file:
+        for line_num,line in enumerate(file):
             parts = line.split(":")
-            start = time.time()
+            start = time.asctime(time.localtime())
             # user_info = parts[0].split(":")
             # username = user_info[0]
             # algo = parts[1]
             # wf = parts[2]
             # hash_salt = parts[3]
             # print(username, " ", algo, " ", wf, " ", hash_salt, "\n")
-            verify(parts[1])
-            end = time.time()
-            print(line, "start: ", start, " end: ", end)
+            print("line", line_num, "start time:", start)
+            print("password", line, ":", find_password(parts[1]))
+            end = time.asctime(time.localtime())
+            print("\nend time:", end)
 
 
-# hashpw(<plaintext word>, <29-char salt for bcrypt>)
-print(hashpw(b"registrationsucks", b"$2b$08$J9FW66ZdPI2nrIMcOxFYI."))
-
-
-def verify(salt):
-    words = words.words()
-    for word in words:
+def find_password(hash):
+    possible_words = words.words()
+    for word in possible_words:
         length = len(word)
         if length <= 10 and length >= 6:
-            if checkpw(word.encode('utf-8'), salt.encode('utf-8')):
-                print(word)
-                print("true")
+            if checkpw(word.encode('utf-8'), hash.encode('utf-8')):
+                return word
 
+# word = "registrationsucks"
+# print(hashpw(b"registrationsucks", b"$2b$08$J9FW66ZdPI2nrIMcOxFYI."))
+# print(checkpw(word.encode('utf-8'),
+#       b'$2b$08$J9FW66ZdPI2nrIMcOxFYI.zKGJsUXmWLAYWsNmIANUy5JbSjfyLFu'))
+# if checkpw(word.encode('utf-8'), b'$2b$08$J9FW66ZdPI2nrIMcOxFYI.zKGJsUXmWLAYWsNmIANUy5JbSjfyLFu'):
+#     print("True")
 
-word = "registrationsucks"
-print(hashpw(b"registrationsucks", b"$2b$08$J9FW66ZdPI2nrIMcOxFYI."))
-print(checkpw(word.encode('utf-8'),
-      b'$2b$08$J9FW66ZdPI2nrIMcOxFYI.zKGJsUXmWLAYWsNmIANUy5JbSjfyLFu'))
-if checkpw(word.encode('utf-8'), b'$2b$08$J9FW66ZdPI2nrIMcOxFYI.zKGJsUXmWLAYWsNmIANUy5JbSjfyLFu'):
-    print("True")
+if __name__ == "__main__":
+    main()
