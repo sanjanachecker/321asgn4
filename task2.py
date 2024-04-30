@@ -9,8 +9,9 @@ def main():
 
     with open(filename, 'r') as file:
         for line_num,line in enumerate(file):
-            parts = line.split(":")
+            parts = line.strip().split(":")
             start = time.asctime(time.localtime())
+            print(parts)
             # user_info = parts[0].split(":")
             # username = user_info[0]
             # algo = parts[1]

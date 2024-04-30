@@ -14,8 +14,8 @@ def sha_hash(input, n):
 def hamming_dist(str1, str2):
     bins1 = ''.join(format(ord(i), '08b') for i in str1)
     bins2 = ''.join(format(ord(i), '08b') for i in str2)
-    print(bins1)
-    print(bins2)
+    # print(bins1)
+    # print(bins2)
 
     dist = 0
 
@@ -28,7 +28,16 @@ def hamming_dist(str1, str2):
 
     dist += max(len(bins1), len(bins2)) - i
 
-    print("distance: ", dist)
+    print("hamming distance: ", dist)
+
+hamming_dist("hello", "helln")
+hamming_dist("world", "worle")
+
+print("hello:", sha_hash("hello", 8))
+print("helln:", sha_hash("helln", 8))
+
+print("world:", sha_hash("world", 8))
+print("worle:", sha_hash("worle", 8))
 
 
 # sha_hash("hi")
@@ -85,8 +94,9 @@ def increment_by_2():
     return time_list, input_list
 
 
-time_list, input_list = increment_by_2()
-print(time_list)
-print(input_list)
+# time_list, input_list = increment_by_2()
+# print(time_list)
+# print(input_list)
+
 # print(find_collision(messages))
 # print(messages)
