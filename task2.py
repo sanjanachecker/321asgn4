@@ -17,10 +17,10 @@ def main():
             # wf = parts[2]
             # hash_salt = parts[3]
             # print(username, " ", algo, " ", wf, " ", hash_salt, "\n")
-            print("line", line_num, "start time:", start)
-            print("password", line, ":", find_password(parts[1]))
+            print(parts[0], "start time:", start)
+            print(parts[0], "password:", find_password(parts[1]))
             end = time.asctime(time.localtime())
-            print("\nend time:", end)
+            print(parts[0], "end time:", end)
 
 
 def find_password(hash):
