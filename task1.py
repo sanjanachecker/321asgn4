@@ -77,6 +77,7 @@ def generate_key_value(digest_size):
 #             if (messages[hash] != message):
 #                 found = True
 #                 return inputs
+
 def find_collision(digest_size):
     messages = set()
     found = False
@@ -90,11 +91,23 @@ def find_collision(digest_size):
             found = True
     return inputs
 
+# def find_collision(digest_size):
+#     messages = {}
+#     inputs = 0
+#     while True:
+#         message, hash_value = generate_key_value(digest_size)
+#         if hash_value in messages and messages[hash_value]:
+#             return inputs
+#         else:
+#             messages[hash_value] = messages.get(hash_value, 0) + 1
+#             inputs += 1
+
+
 def increment_by_2():
     time_list = [("bits", "secs")]
     input_list = [("bits", "inputs")]
 
-    for i in range(8, 50, 2):
+    for i in range(8, 52, 2):
         start = time.time()
         inputs = find_collision(i)
         end = time.time()
